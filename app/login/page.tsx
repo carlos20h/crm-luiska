@@ -23,7 +23,6 @@ export default function Login() {
       return
     }
     r.push('/kanban')
-    r.refresh()
   }
 
   return (
