@@ -17,13 +17,20 @@ export default function Login() {
       setErr('Supabase not configured')
       return
     }
-    const { error } = await s.auth.signInWithPassword({ email, password })
+    const { data, error } = await s.auth.signInWithPassword({ email, password })
     if (error) {
       setErr(error.message)
       return
     }
+    const { session } = data
+    if (session) {
+      await fetch('/auth/callback', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ event: 'SIGNED_IN', session }),
+      })
+    }
     r.push('/kanban')
-    r.refresh()
   }
 
   return (
