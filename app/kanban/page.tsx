@@ -9,6 +9,9 @@ type Card = {
 
 export default async function Kanban() {
   const s = supabaseServer()
+  if (!s) {
+    return <main className="p-6">Supabase not configured</main>
+  }
   const { data: stages } = await s.from('crm.stages').select('id,name,position').order('position')
   const { data: opps }   = await s.from('crm.v_opps_kanban').select('*')
 
@@ -39,4 +42,3 @@ export default async function Kanban() {
     </main>
   )
 }
-
