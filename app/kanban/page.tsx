@@ -1,4 +1,5 @@
 import { supabaseServer } from '@/lib/supabase-server'
+import { redirect } from 'next/navigation'
 
 type Stage = { id: string; name: string; position: number }
 type Card = {
@@ -12,6 +13,8 @@ export default async function Kanban() {
   if (!s) {
     return <main className="p-6">Supabase not configured</main>
   }
+  const { data: { user } } = await s.auth.getUser()
+  if (!user) redirect('/login')
   const { data: stages } = await s.from('crm.stages').select('id,name,position').order('position')
   const { data: opps }   = await s.from('crm.v_opps_kanban').select('*')
 

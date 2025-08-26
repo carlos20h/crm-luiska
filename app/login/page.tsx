@@ -1,11 +1,9 @@
 'use client'
 import { useState } from 'react'
 import { supabaseBrowser } from '@/lib/supabase-browser'
-import { useRouter } from 'next/navigation'
 
 export default function Login() {
   const s = supabaseBrowser()
-  const r = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [err, setErr] = useState<string | null>(null)
@@ -17,20 +15,12 @@ export default function Login() {
       setErr('Supabase not configured')
       return
     }
-    const { data, error } = await s.auth.signInWithPassword({ email, password })
+    const { error } = await s.auth.signInWithPassword({ email, password })
     if (error) {
       setErr(error.message)
       return
     }
-    const { session } = data
-    if (session) {
-      await fetch('/auth/callback', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ event: 'SIGNED_IN', session }),
-      })
-    }
-    r.push('/kanban')
+    location.href = '/kanban'
   }
 
   return (
