@@ -27,4 +27,5 @@ npm run dev
 
 ## Login
 
-Visit `/login` and sign in with a Supabase Auth user. The session is stored in cookies so the middleware can protect authenticated routes.
+Visit `/login` and sign in with a Supabase Auth user. On success the page reloads and the middleware redirects you to `/kanban`.
+If nothing happens, ensure your credentials and environment variables are correct.
