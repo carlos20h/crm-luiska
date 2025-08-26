@@ -18,7 +18,7 @@ export default function Login() {
     }
     const { error } = await s.auth.signInWithPassword({ email, password })
     if (error) setErr(error.message)
-    else r.refresh()
+    else r.push('/kanban')
   }
 
   return (
