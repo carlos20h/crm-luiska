@@ -22,7 +22,7 @@ export default function Login() {
       setErr(error.message)
       return
     }
-    r.refresh()
+    r.push('/kanban')
   }
 
   return (
