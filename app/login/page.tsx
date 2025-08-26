@@ -4,6 +4,7 @@ import { supabaseBrowser } from '@/lib/supabase-browser'
 import { useRouter } from 'next/navigation'
 
 export default function Login() {
+  const s = supabaseBrowser()
   const r = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -11,14 +12,13 @@ export default function Login() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const s = supabaseBrowser()
     if (!s) {
       setErr('Supabase not configured')
       return
     }
     const { error } = await s.auth.signInWithPassword({ email, password })
     if (error) setErr(error.message)
-    else r.push('/kanban')
+    else r.refresh()
   }
 
   return (
