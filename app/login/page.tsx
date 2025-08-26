@@ -28,7 +28,7 @@ export default function Login() {
         <input className="w-full border rounded p-2" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         <input className="w-full border rounded p-2" type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} />
         {err && <p className="text-red-600 text-sm">{err}</p>}
-        <button className="w-full rounded-xl p-2 bg-[#004184] text-white">Entrar</button>
+        <button type="submit" className="w-full rounded-xl p-2 bg-[#004184] text-white">Entrar</button>
       </form>
     </main>
   )
