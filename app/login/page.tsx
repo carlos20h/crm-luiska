@@ -10,15 +10,20 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [err, setErr] = useState<string | null>(null)
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setErr(null)
     if (!s) {
       setErr('Supabase not configured')
       return
     }
     const { error } = await s.auth.signInWithPassword({ email, password })
-    if (error) setErr(error.message)
-    else r.push('/kanban')
+    if (error) {
+      setErr(error.message)
+      return
+    }
+    r.push('/kanban')
+    r.refresh()
   }
 
   return (
