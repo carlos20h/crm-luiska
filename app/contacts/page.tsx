@@ -9,7 +9,7 @@ export default async function Contacts() {
   if (!user) redirect('/login')
   const { data: contacts } = await s
     .from('contacts')
-    .select('id,first_name,last_name,phone,email,city,source_id')
+    .select('id,first_name,last_name,phone,email,city,sources(name)')
     .order('created_at', { ascending: false })
 
   return (
@@ -38,7 +38,7 @@ export default async function Contacts() {
                 <td className="p-2 border">{c.phone}</td>
                 <td className="p-2 border">{c.email}</td>
                 <td className="p-2 border">{c.city}</td>
-                <td className="p-2 border">{c.source_id}</td>
+                <td className="p-2 border">{c.sources?.[0]?.name}</td>
               </tr>
             ))}
           </tbody>
