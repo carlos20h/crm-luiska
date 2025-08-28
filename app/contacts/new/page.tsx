@@ -21,7 +21,7 @@ export default function NewContact() {
       setErr('Supabase not configured')
       return
     }
-    const { error } = await s.from('crm.contacts').insert({
+    const { error } = await s.from('contacts').insert({
       first_name: firstName,
       last_name: lastName,
       phone,
