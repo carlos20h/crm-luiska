@@ -8,7 +8,7 @@ type Card = {
   stage: string
 }
 
-export default async function Kanban() {
+export default async function Oportunidades() {
   const s = supabaseServer()
   if (!s) {
     return <main className="p-6">Supabase not configured</main>

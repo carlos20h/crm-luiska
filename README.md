@@ -27,5 +27,5 @@ npm run dev
 
 ## Login
 
-Visit `/login` and sign in with a Supabase Auth user. On success the page reloads and the middleware redirects you to `/kanban`.
+Visit `/login` and sign in with a Supabase Auth user. On success the page reloads and the middleware redirects you to `/oportunidades`.
 If nothing happens, ensure your credentials and environment variables are correct.
