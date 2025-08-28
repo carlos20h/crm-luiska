@@ -20,7 +20,7 @@ export default function Login() {
       setErr(error.message)
       return
     }
-    location.href = '/kanban'
+    location.href = '/oportunidades'
   }
 
   return (
