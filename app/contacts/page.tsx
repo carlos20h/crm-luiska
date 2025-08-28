@@ -1,5 +1,6 @@
 import { supabaseServer } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function Contacts() {
   const s = supabaseServer()
@@ -14,6 +15,11 @@ export default async function Contacts() {
   return (
     <main className="p-6">
       <h1 className="text-xl font-semibold mb-4">Contactos</h1>
+      <div className="mb-4">
+        <Link href="/contacts/new" className="inline-block rounded-xl bg-[#004184] px-4 py-2 text-white">
+          Nuevo Contacto
+        </Link>
+      </div>
       <div className="overflow-auto">
         <table className="min-w-full border bg-white text-sm">
           <thead>
