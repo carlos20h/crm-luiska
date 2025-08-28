@@ -21,7 +21,18 @@ export default function NewContact() {
       .from('sources')
       .select('id,name')
       .order('id')
-      .then(({ data }) => setSources(data ?? []))
+      .then(({ data, error }) => {
+        if (!data || data.length === 0 || error) {
+          setSources([
+            { id: 1, name: 'Ads' },
+            { id: 2, name: 'Referido' },
+            { id: 3, name: 'Alianza' },
+            { id: 4, name: 'Orgánico' },
+          ])
+        } else {
+          setSources(data)
+        }
+      })
   }, [s])
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
