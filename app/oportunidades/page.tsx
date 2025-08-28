@@ -16,8 +16,8 @@ export default async function Oportunidades() {
   }
   const { data: { user } } = await s.auth.getUser()
   if (!user) redirect('/login')
-  const { data: stages } = await s.from('public.stages').select('id,name,position').order('position')
-  const { data: opps }   = await s.from('public.v_opps_kanban').select('*')
+  const { data: stages } = await s.from('stages').select('id,name,position').order('position')
+  const { data: opps }   = await s.from('v_opps_kanban').select('*')
 
   const grouped: Record<string, Card[]> = {}
   stages?.forEach((st: Stage) => (grouped[st.name] = []))

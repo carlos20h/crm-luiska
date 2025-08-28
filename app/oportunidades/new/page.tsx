@@ -22,7 +22,7 @@ export default function NewOpportunity() {
   useEffect(() => {
     if (!s) return
     s
-      .from('public.contacts')
+      .from('contacts')
       .select('id,first_name,last_name')
       .then(({ data }) => {
         const mapped = data?.map((c: any) => ({
@@ -32,7 +32,7 @@ export default function NewOpportunity() {
         setContacts(mapped ?? [])
       })
     s
-      .from('public.sources')
+      .from('sources')
       .select('id,name')
       .order('id')
       .then(({ data, error }) => {
@@ -61,7 +61,7 @@ export default function NewOpportunity() {
       setErr('No user')
       return
     }
-    const { data: oppId, error: oppErr } = await s.rpc('public.create_opportunity', {
+    const { data: oppId, error: oppErr } = await s.rpc('create_opportunity', {
       p_contact_id: contactId,
       p_interest: interest,
       p_amount: amount ? Number(amount) : null,
@@ -76,7 +76,7 @@ export default function NewOpportunity() {
       const updates: any = {}
       if (probability) updates.probability = Number(probability)
       if (nextStep) updates.next_step_at = new Date(nextStep).toISOString()
-      await s.from('public.opportunities').update(updates).eq('id', oppId)
+      await s.from('opportunities').update(updates).eq('id', oppId)
     }
     router.push('/oportunidades')
   }
