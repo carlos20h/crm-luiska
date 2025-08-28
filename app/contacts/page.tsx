@@ -7,10 +7,28 @@ export default async function Contacts() {
   if (!s) return <main className="p-6">Supabase not configured</main>
   const { data: { user } } = await s.auth.getUser()
   if (!user) redirect('/login')
-  const { data: contacts } = await s
-    .from('contacts')
-    .select('id,first_name,last_name,phone,email,city,source_id')
-    .order('created_at', { ascending: false })
+
+  const [contactsRes, sourcesRes] = await Promise.all([
+    s
+      .from('contacts')
+      .select('id,first_name,last_name,phone,email,city,source_id')
+      .order('created_at', { ascending: false }),
+    s
+      .from('sources')
+      .select('id,name')
+      .order('id'),
+  ])
+
+  const contacts = contactsRes.data || []
+  const sources = sourcesRes.data && sourcesRes.data.length > 0
+    ? sourcesRes.data
+    : [
+        { id: 1, name: 'Ads' },
+        { id: 2, name: 'Referido' },
+        { id: 3, name: 'Alianza' },
+        { id: 4, name: 'Orgánico' },
+      ]
+  const sourceMap = new Map(sources.map(s => [s.id, s.name]))
 
   return (
     <main className="p-6">
@@ -32,13 +50,13 @@ export default async function Contacts() {
             </tr>
           </thead>
           <tbody>
-            {contacts?.map(c => (
+            {contacts.map(c => (
               <tr key={c.id}>
                 <td className="p-2 border">{c.first_name} {c.last_name}</td>
                 <td className="p-2 border">{c.phone}</td>
                 <td className="p-2 border">{c.email}</td>
                 <td className="p-2 border">{c.city}</td>
-                <td className="p-2 border">{c.source_id}</td>
+                <td className="p-2 border">{sourceMap.get(c.source_id) ?? ''}</td>
               </tr>
             ))}
           </tbody>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseBrowser } from '@/lib/supabase-browser'
 
@@ -12,7 +12,28 @@ export default function NewContact() {
   const [email, setEmail] = useState('')
   const [city, setCity] = useState('')
   const [sourceId, setSourceId] = useState('')
+  const [sources, setSources] = useState<{ id: number; name: string }[]>([])
   const [err, setErr] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!s) return
+    s
+      .from('sources')
+      .select('id,name')
+      .order('id')
+      .then(({ data, error }) => {
+        if (!data || data.length === 0 || error) {
+          setSources([
+            { id: 1, name: 'Ads' },
+            { id: 2, name: 'Referido' },
+            { id: 3, name: 'Alianza' },
+            { id: 4, name: 'Orgánico' },
+          ])
+        } else {
+          setSources(data)
+        }
+      })
+  }, [s])
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -27,7 +48,7 @@ export default function NewContact() {
       phone,
       email,
       city,
-      source_id: sourceId
+      source_id: sourceId ? Number(sourceId) : null,
     })
     if (error) {
       setErr(error.message)
@@ -45,7 +66,18 @@ export default function NewContact() {
         <input className="w-full border rounded p-2" placeholder="Teléfono" value={phone} onChange={e => setPhone(e.target.value)} />
         <input className="w-full border rounded p-2" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         <input className="w-full border rounded p-2" placeholder="Ciudad" value={city} onChange={e => setCity(e.target.value)} />
-        <input className="w-full border rounded p-2" placeholder="Fuente" value={sourceId} onChange={e => setSourceId(e.target.value)} />
+        <select
+          className="w-full border rounded p-2"
+          value={sourceId}
+          onChange={e => setSourceId(e.target.value)}
+        >
+          <option value="">Fuente</option>
+          {sources.map(s => (
+            <option key={s.id} value={s.id}>
+              {s.name}
+            </option>
+          ))}
+        </select>
         {err && <p className="text-red-600 text-sm">{err}</p>}
         <button type="submit" className="rounded-xl p-2 bg-[#004184] text-white">Guardar</button>
       </form>
