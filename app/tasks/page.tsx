@@ -7,7 +7,7 @@ export default async function Tasks() {
   const { data: { user } } = await s.auth.getUser()
   if (!user) redirect('/login')
   const { data: tasks } = await s
-    .from('tasks')
+    .from('crm.tasks')
     .select('id,title,due_at,status,priority')
     .order('due_at')
 

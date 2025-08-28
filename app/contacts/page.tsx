@@ -8,7 +8,7 @@ export default async function Contacts() {
   const { data: { user } } = await s.auth.getUser()
   if (!user) redirect('/login')
   const { data: contacts } = await s
-    .from('contacts')
+    .from('crm.contacts')
     .select('id,first_name,last_name,phone,email,city,source_id')
     .order('created_at', { ascending: false })
 

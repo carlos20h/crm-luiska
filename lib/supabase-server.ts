@@ -7,7 +7,6 @@ export const supabaseServer = () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      db: { schema: 'crm' },
       cookies: {
         // ✅ Solo lectura en Server Components (páginas)
         get(name: string) {
