@@ -5,6 +5,7 @@ export const supabaseBrowser = () => {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return null
   return createBrowserClient(url, key, {
+    db: { schema: 'public' },
     cookies: {
       get(name: string) {
         const match = document.cookie
