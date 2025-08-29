@@ -1,5 +1,6 @@
 import { supabaseServer } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 type Stage = { id: string; name: string; position: number }
 type Card = {
@@ -23,25 +24,32 @@ export default async function Oportunidades() {
   opps?.forEach((o: any) => { (grouped[o.stage] ||= []).push(o as Card) })
 
   return (
-    <main className="p-6 grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
-      {stages?.map((st: Stage) => (
-        <section key={st.id} className="bg-white border rounded-2xl p-3">
-          <h2 className="font-semibold mb-2">{st.position}. {st.name}</h2>
-          <div className="space-y-2">
-            {grouped[st.name]?.map((card: Card) => (
-              <article key={card.id} className="border rounded-xl p-3">
-                <div className="text-sm font-medium">{card.contact}</div>
-                <div className="text-xs text-gray-500">
-                  {card.interest} · ${card.amount_estimated ?? 0}
-                </div>
-                <div className="text-xs">
-                  Próx. paso: {new Date(card.next_step_at).toLocaleString()}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
+    <main className="p-6">
+      <div className="mb-4">
+        <Link href="/oportunidades/new" className="inline-block rounded-xl bg-[#004184] px-4 py-2 text-white">
+          Nueva Oportunidad
+        </Link>
+      </div>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+        {stages?.map((st: Stage) => (
+          <section key={st.id} className="bg-white border rounded-2xl p-3">
+            <h2 className="font-semibold mb-2">{st.position}. {st.name}</h2>
+            <div className="space-y-2">
+              {grouped[st.name]?.map((card: Card) => (
+                <article key={card.id} className="border rounded-xl p-3">
+                  <div className="text-sm font-medium">{card.contact}</div>
+                  <div className="text-xs text-gray-500">
+                    {card.interest} · ${card.amount_estimated ?? 0}
+                  </div>
+                  <div className="text-xs">
+                    Próx. paso: {new Date(card.next_step_at).toLocaleString()}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </main>
   )
 }
