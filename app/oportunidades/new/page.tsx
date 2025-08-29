@@ -15,7 +15,6 @@ export default function NewOpportunity() {
   const [interest, setInterest] = useState('')
   const [amount, setAmount] = useState('')
   const [probability, setProbability] = useState('')
-  const [nextStep, setNextStep] = useState('')
   const [sourceId, setSourceId] = useState('')
   const [err, setErr] = useState<string | null>(null)
 
@@ -72,11 +71,11 @@ export default function NewOpportunity() {
       setErr(oppErr.message)
       return
     }
-    if (probability || nextStep) {
-      const updates: any = {}
-      if (probability) updates.probability = Number(probability)
-      if (nextStep) updates.next_step_at = new Date(nextStep).toISOString()
-      await s.from('opportunities').update(updates).eq('id', oppId)
+    if (probability) {
+      await s
+        .from('opportunities')
+        .update({ probability: Number(probability) })
+        .eq('id', oppId)
     }
     router.push('/oportunidades')
   }
@@ -121,13 +120,6 @@ export default function NewOpportunity() {
           placeholder="Probabilidad"
           value={probability}
           onChange={e => setProbability(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          className="w-full border rounded p-2"
-          placeholder="Próximo paso"
-          value={nextStep}
-          onChange={e => setNextStep(e.target.value)}
         />
         <select
           className="w-full border rounded p-2"
